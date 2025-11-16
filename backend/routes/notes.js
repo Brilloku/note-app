@@ -1,4 +1,5 @@
 const express = require('express');
+const Sentry = require('@sentry/node');
 const Note = require('../models/Note');
 
 const router = express.Router();
@@ -9,6 +10,7 @@ router.get('/', async (req, res, next) => {
     const notes = await Note.find().sort({ createdAt: -1 });
     res.json(notes);
   } catch (error) {
+    Sentry.captureException(error);
     next(error);
   }
 });
@@ -22,6 +24,7 @@ router.get('/:id', async (req, res, next) => {
     }
     res.json(note);
   } catch (error) {
+    Sentry.captureException(error);
     next(error);
   }
 });
@@ -34,6 +37,7 @@ router.post('/', async (req, res, next) => {
     const savedNote = await note.save();
     res.status(201).json(savedNote);
   } catch (error) {
+    Sentry.captureException(error);
     next(error);
   }
 });
@@ -52,6 +56,7 @@ router.put('/:id', async (req, res, next) => {
     }
     res.json(note);
   } catch (error) {
+    Sentry.captureException(error);
     next(error);
   }
 });
@@ -65,6 +70,7 @@ router.delete('/:id', async (req, res, next) => {
     }
     res.json({ message: 'Note deleted' });
   } catch (error) {
+    Sentry.captureException(error);
     next(error);
   }
 });

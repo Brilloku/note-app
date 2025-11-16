@@ -3,7 +3,7 @@ import axios from 'axios';
 import NotesList from './components/NotesList';
 import NoteForm from './components/NoteForm';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000/api';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'note-app-production-d2c6.up.railway.app/api';
 
 function App() {
   const [notes, setNotes] = useState([]);
@@ -19,6 +19,7 @@ function App() {
       setNotes(response.data);
     } catch (error) {
       console.error('Error fetching notes:', error);
+      Sentry.captureException(error);
     }
   };
 
@@ -28,6 +29,7 @@ function App() {
       setNotes([response.data, ...notes]);
     } catch (error) {
       console.error('Error adding note:', error);
+      Sentry.captureException(error);
     }
   };
 
@@ -38,6 +40,7 @@ function App() {
       setEditingNote(null);
     } catch (error) {
       console.error('Error updating note:', error);
+      Sentry.captureException(error);
     }
   };
 
@@ -47,6 +50,7 @@ function App() {
       setNotes(notes.filter(note => note._id !== id));
     } catch (error) {
       console.error('Error deleting note:', error);
+      Sentry.captureException(error);
     }
   };
 

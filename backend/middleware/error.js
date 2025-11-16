@@ -1,5 +1,10 @@
+const Sentry = require('@sentry/node');
+
 const errorHandler = (err, req, res, next) => {
   console.error(err.stack);
+
+  // Capture the error with Sentry
+  Sentry.captureException(err);
 
   if (err.name === 'ValidationError') {
     return res.status(400).json({ message: 'Validation Error', errors: err.errors });
