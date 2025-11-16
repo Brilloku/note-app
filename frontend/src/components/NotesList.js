@@ -5,7 +5,7 @@ const NotesList = ({ notes, onEdit, onDelete }) => {
   return (
     <div className="notes-list">
       <h2>Your Notes</h2>
-      {(!notes || notes.length === 0) ? (
+      {(!notes || !Array.isArray(notes) || notes.length === 0) ? (
         <p>No notes yet. Create your first note!</p>
       ) : (
         notes.map(note => (
